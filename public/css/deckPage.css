@@ -1,0 +1,427 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap');
+
+body
+{
+    background-color: rgb(255, 242, 222);
+
+    margin:0;
+    padding:0;
+    font-family: "Open Sans", sans-serif;
+
+    min-width: 1100px;
+    min-height: 500px;
+}
+
+h3, h4
+{
+    text-align: center;
+}
+
+textarea
+{
+    resize: none;
+    margin: auto;
+    width: 400px;
+    /* max-width: 90%; */
+    min-width: 90%;
+    height: 460px;
+    min-height: 80%;
+    display: block;
+    outline: none;
+    border: none;
+    background-color: rgb(240, 230, 220);
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Estilize a trilha da barra de rolagem */
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Estilize o polegar da barra de rolagem */
+::-webkit-scrollbar-thumb {
+    background-color: rgb(155, 91, 91);
+}
+
+/* Estilize os botões da barra de rolagem (setas) */
+::-webkit-scrollbar-button {
+    background-color: rgb(201, 191, 191);
+}
+
+/* Estilize o canto da barra de rolagem (canto inferior direito) */
+::-webkit-scrollbar-corner {
+    background-color: #f1f1f1;
+}
+
+
+#title
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    background-color: rgb(110, 202, 95);
+
+    width: 100%;
+    min-width: 25%;
+
+    height: 100%;
+    min-height: fit-content;
+    max-height: fit-content;
+
+    padding: 10px 0px;
+}
+#title p
+{
+    margin: 0;
+    text-align: center;
+    font-size: 50px;
+
+}
+
+
+
+main
+{
+    overflow: hidden;
+    width: 100%;
+    min-width: 25%;
+    min-height: 25%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5px 0px 5px 0px;
+
+    background-color: rgb(255, 242, 222);
+}
+main .content-block
+{
+    margin: 0px 5px;
+    max-width: 48%;
+    height: max-content;
+    flex: 1;
+
+    background-color: rgb(255, 243, 243);
+    border-radius: 10px;
+
+    box-shadow: 0 0 20px 2px rgb(28 28 28 / 10%);
+
+    transition-duration: 1s;
+
+}
+#content .content-block p
+{
+    text-align: center;
+}
+.items-wrapper
+{
+    display: flex;
+    flex-direction: column;
+    border-radius: inherit;
+    height: 50%;
+    max-height: 50vh;
+    overflow: hidden scroll;
+    background-color: rgb(240, 232, 232);
+    border: 5px solid rgb(255, 243, 243);
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+.task
+{
+    margin: 2px;
+    font-weight: bold;
+    display: flex;
+    text-align: left;
+    border-radius: 2px 5px 5px 2px;
+
+    padding: 10px 5px;
+    width: 95%;
+    min-height: 24px;
+
+    border-left: 3px solid rgb(60, 60, 60);
+    background-color: rgb(255, 243, 243);
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+
+    transition: .2s;
+    transition-timing-function: cubic-bezier(0.09, 0.55, 0.58, 1);
+}
+.task p
+{
+    margin: 2%;
+}
+.task:hover
+{
+    padding: 15px 5px;
+    background-color: rgba(255, 230, 255, .8);
+}
+
+.content-delete-btn
+{
+    z-index: 1;
+    transition-duration: .5s;
+    cursor: pointer;
+    user-select: none;
+    margin-right: 10px;
+    padding: 1px 5px 1px 5px;
+    border-radius: 15px;
+    border: 1px solid rgb(245, 235, 235);
+}
+.content-delete-btn:hover
+{
+    background-color: rgba(200, 100, 250, .2)
+}
+
+
+#new-task-form
+{
+    display: flex;
+
+    padding-left: 12px;
+
+    width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+    background: transparent;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+#new-task-form input[type="text" i]
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    color: rgb(65, 72, 86);
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+
+    width: 100%;
+
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+
+
+
+
+.modal
+{
+    display: none;
+    position: fixed;
+    z-index: 1;
+
+    top: 0px;
+    width: 100%;
+    height: 100%;
+
+    margin: 0px;
+
+    border-style: solid;
+    border-width: 1px 2px 3px;
+    border-radius: 10px;
+    border-color: rgb(174, 235, 226);
+
+    background-color: rgba(60, 60, 60, .3);
+}
+
+.modal-box
+{
+    display: flex;
+    margin: auto;
+    width: 60%;
+    min-height: 60vh;
+    max-height: 90vh;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+
+.modal-box-header
+{
+    padding: 3px 0px 3px;
+    border-radius: 5px 5px 0px 0px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    background-color: rgb(174, 235, 226);
+    justify-content: space-evenly;
+    align-content: flex-start;
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.modal-box-header p:first-child
+{
+    position: relative;
+
+    flex: 1;
+    left: 10px;
+    margin: 0px;
+    padding: 5px 0px 7px;
+    color: rgb(60,60,60);
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* Div de elementos de ação no canto superior direito */
+.modal-box-header-action 
+{
+    user-select: none;
+    cursor: pointer;
+    display: block;
+
+    position: relative;
+    flex: 0;
+    right: 20px;
+    font-size: large;
+    font-weight: bold;
+
+    background-color: rgb(140, 210, 230);
+    border-radius: 15px;
+
+}
+/* Divs de elementos de ação no canto superior direito */
+.modal-box-header-action div
+{
+    padding: 2px 8px 5px;
+    border-radius: 50%;
+    background-color: rgb(140, 210, 230);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+/* Divs de elementos de ação no canto superior direito :hover */
+.modal-box-header-action div:hover
+{
+    background-color: rgb(230, 240, 255);
+    cursor: pointer;
+}
+
+
+
+.modal-box-content
+{
+    padding: 10px;
+    min-height: fit-content;
+    height: 100%;
+    max-height: 90vh;
+    background-color: rgb(245, 235, 235);
+}
+
+.modal-box-content textarea
+{
+    height: 100%;
+    max-height: 60vh;
+    background-color: rgb(240, 230, 220);
+}
+
+
+
+
+
+
+
+#journal
+{
+    max-height: 60vh;
+}
+.journal-min-entry
+{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 20px 5px;
+    width: 95%;
+    max-height: 20%;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 243, 243);
+    border-radius: 5px;
+    margin: 2px;
+
+    transition-duration: .2s;
+}
+div.journal-min-entry:hover
+{
+    background-color: rgba(245, 220, 245, 1);
+    padding: 30px 5px;
+}
+.journal-min-entry-date
+{
+    font-weight: bold;
+    padding: 2px 2px 8px;
+    border-top: 3px solid rgb(60, 60, 60);
+}
+.journal-min-entry-content
+{
+    text-align: justify;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgb(245, 235, 235);
+    min-height: 20px;
+    max-height: fit-content;
+    height: 55px;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(80, 90, 45, .2);
+    transition-duration: .3s;
+    width: 95%;
+}
+.journal-min-entry-cont
+ent:focus
+{
+    outline: transparent;
+}
+
+.journal-entry-date
+{
+    font-weight: bold;
+}
+
+.journal-entry-content
+{
+    color: rgb(28, 28, 28);
+    word-spacing: 2px;
+    resize: vertical;
+    display: block;
+    margin: auto;
+    width: 90%;
+    padding: 10px;
+    min-height: 30vh;
+    height: max-content;
+    max-height: 80vh;
+    overflow: auto;
+    font-family: inherit;
+    /* font-family: 'Open-Dyslexic'; */
+    font-size: 18px;
+    background-color: transparent;
+    outline: 0px;
+    border: 0px;
+    border-left: 2px solid rgb(60, 60, 60);
+}
+
+.journal-entry-content:focus
+{
+    outline: 0px;
+}
+

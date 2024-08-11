@@ -3,7 +3,7 @@
 *.code-workspace
 
 # Pasta de desenvolvimento
-.dev/
+dev/
 
 # Node modules
 node_modules/

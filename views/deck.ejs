@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= deck.main.Title %></title>
+    <link rel="stylesheet" href="/css/deckPage.css">
+    <link rel="stylesheet" href="/css/checkbox.css">
+</head>
+
+
+<body>
+<main>
+
+    <div class="content-block"  id="checklist">
+        <h3>Lista de tarefas</h3>
+        <div id="checklist-items">
+
+            <!-- Isso aqui cria uma nova tarefa -->
+            <div class="task">
+                <form id="new-task-form" onsubmit="createTask(event, this.firstElementChild.value)">
+                    <input id="new-task-input" type="text" pattern="^[a-zA-Z0-9 áéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ.]+$" placeholder="Nova tarefa" value="Nova tarefa">
+                </form>
+            </div>
+
+
+            <% const checklist = deck.checklist.sort((a, b) => a.finished - b.finished) %>
+            <% for(let item of checklist) { %>
+
+                <!-- Aqui são as tarefas retiradas do banco de dados -->
+                <div class="task">
+                    <div class="checkbox-wrapper" oninput="toggleCheckTask(event)" data-id="<%=item.ID%>">
+                        <input id="task<%= item.ID %>" type="checkbox" <%= item.finished ? 'checked' : '' %>>
+                        <label for="task<%= item.ID %>"> <%= item.title %> </label>
+                    </div>
+                    <span class="content-delete-btn" data-id="<%=item.ID%>" onclick="deleteTask(this.parentElement, this.dataset.id)">&times;</span>
+                </div>
+
+            <% } %>
+
+        </div>
+        
+    </div>
+
+
+
+
+    <div class="content-block" id="bio">
+        <h3>Bio</h3>
+        <h4>Resumo do projeto</h4>
+        <textarea name="bio-text" id="bio-textarea" cols="30" rows="50" oninput="updateDeckBio(this.value)" spellcheck="false"><%= deck.main.mainContent %></textarea>
+    </div>
+
+    
+
+
+    <div class="content-block" id="journal">
+        <h3>Diário</h3>
+        <div id="journal-entries">
+
+
+            <% for (entry of deck.journal_entries) { %>
+
+                <div class="journal-min-entry" data-entry_date="<%=entry.date%>">
+                    <span class="journal-delete-btn">&times;</span>
+                    <span class="journal-min-entry-date">Dia <%=entry.creationDate || "misterioso"%></span>
+                    <span class="journal-min-entry-content"><%=entry.content%></span>
+                </div>
+
+                <div class="journal-entry">
+                    <p><%=entry.Title%></p>
+                </div>
+
+            <% } %>
+        </div>
+    </div>
+
+
+</main>
+
+<script src="/js/deckPage.js"></script>
+<script>window.addEventListener("load", () => {setupPage('<%=deck.main.ID%>')})</script>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "organization-cards",
+  "version": "1.0.0",
+  "description": "Um sistema de organização de tarefas baseado em cartões.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app"
+  },
+  "keywords": [
+    "cards",
+    "organization",
+    "express",
+    "sqlite"
+  ],
+  "author": "Matheus Carvalho",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "webpack": "^5.92.0"
+  }
+}
