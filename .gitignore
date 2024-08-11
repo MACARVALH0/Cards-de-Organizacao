@@ -1,0 +1,9 @@
+# VS Code
+.vscode/
+*.code-workspace
+
+# Pasta de desenvolvimento
+.dev/
+
+# Node modules
+node_modules/
