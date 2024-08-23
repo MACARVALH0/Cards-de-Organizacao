@@ -114,7 +114,11 @@ main .content-block
     box-shadow: 0 0 20px 2px rgb(28 28 28 / 10%);
 
     transition-duration: 1s;
-
+}
+main section
+{
+    max-height: 90vh;
+    overflow-y: scroll;
 }
 #content .content-block p
 {
@@ -344,8 +348,39 @@ main .content-block
 
 #journal
 {
-    max-height: 60vh;
+    max-height: 90vh;
+    overflow-y: scroll;
 }
+.journal-entry-delete-btn
+{
+    z-index: 1;
+    transition-duration: .3s;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 5px;
+    padding: 1px 7px;
+    border-radius: 20px;
+    border: 1px solid rgb(245, 235, 235);
+}
+.journal-entry-delete-btn:hover
+{
+    background-color: rgba(200, 100, 250, .2);
+}
+.entry-delete-yn
+{
+    padding: 3px 5px;
+    transition-duration: .5s;
+    border-radius: 5px;
+}
+.entry-delete-y:hover
+{
+    background-color: rgba(255, 41, 41, 0.682);
+}
+.entry-delete-n:hover
+{
+    background-color: rgb(134, 233, 120);
+}
+
 .journal-min-entry
 {
     cursor: pointer;

@@ -1,29 +1,24 @@
-function setupPage(deckID)
+function setupControllers(deckID)
 {
     const deck_ID = deckID;
-    const update_delay = 2000;
-    var bioUpdateTimeout = null;
+
 
     const checklist_DOM = document.querySelector("#checklist");
     const checklist_items = checklist_DOM.querySelector("#checklist-items");
 
     const checklist_new_item = checklist_items.querySelector(".task");
     const new_item_input = checklist_new_item.querySelector("input");
+    const task_placeholder_txt = new_item_input.value; // Primeira task
 
     const bio_DOM = document.querySelector("#bio");
     const journal_DOM = document.querySelector("#journal");
-    const task_placeholder_txt = new_item_input.value; // Primeira task
 
     new_item_input.addEventListener("focus", (e) => {e.target.value = "";});
     new_item_input.addEventListener("blur", (e) => {if(e.target.value == ""){e.target.value = task_placeholder_txt;}});
 
-    function lTaskDeleteCancel(last_element, current_element)
-    {
-        getLabel(current_element).innerHTML = last_element.original_txt;
-        last_element.el = undefined;
-    }
 
     function getLabel(el){return el.querySelector("label")};
+
     
     const getTaskIndex = (opt, list, len) =>
     { // Retorna o índice da última tarefa em aberto ou da primeira fechada, de acordo com a ordem disposta na lista. 
@@ -35,11 +30,10 @@ function setupPage(deckID)
 
     async function toggleCheckTask(e)
     {
-        //TODO Definir o ID do item no div
         const div = e.target.parentElement;
         const is_checked = e.target.checked ? 1 : 0;
-        const input = div.firstElementChild;
-        const label = div.lastElementChild;
+        // const input = div.firstElementChild;
+        // const label = div.lastElementChild;
         
         try
         {
@@ -106,7 +100,7 @@ function setupPage(deckID)
 
         }
     }
-    
+
     // TODO
     // Adicionar event listener de input
     // Adicionar dataset-id com o ID do item
@@ -127,6 +121,10 @@ function setupPage(deckID)
         item_label.innerHTML = title;
 
         const delete_btn = document.createElement("span");
+        delete_btn.dataset.id = id;
+        delete_btn.innerHTML = "&times;";
+        delete_btn.classList.add("content-delete-btn");
+        delete_btn.addEventListener("click", function(){deleteTask(this.parentElement, this.dataset.id)});
 
         wrapper_div.append(item_input, item_label);
         new_item.append(wrapper_div, delete_btn);
@@ -162,26 +160,28 @@ function setupPage(deckID)
             console.log(result.status);
 
             createTasklistItemDOMElement(result.id, title);
+            event.target.querySelector("input").value = "";
         }
 
         catch(err) {console.error("Não foi possível adicionar o elemento HTML do item à checklist.\n", err);}
-
-
     }
 
+
+    function taskDeleteCancel(last_element, current_element)
+    {
+        getLabel(current_element).innerHTML = last_element.original_txt;
+        last_element.el = undefined;
+    }
 
 
     var last_task_touched = {el:undefined, original_txt:""};
     async function deleteTask(el, id)
     {
-        let cancel_timer;
-
         if(last_task_touched.el)
         {
-            if(el == last_task_touched.el && last_task_touched.el)
+            if(el == last_task_touched.el)
             {
                 // Leva para o controlador de exclusão
-
                 try
                 {
                     const route = 'checklist/delete';
@@ -212,24 +212,26 @@ function setupPage(deckID)
 
             }
 
-            else lTaskDeleteCancel(el, last_task_touched);
+            else taskDeleteCancel(el, last_task_touched);
 
         }
         else
         {
+            const label = getLabel(el)
             last_task_touched.el = el;
-            last_task_touched.original_txt = getLabel(el).innerHTML;
-            getLabel(el).innerHTML = "Deletar tarefa?";
+            last_task_touched.original_txt = label.innerHTML;
+            label.innerHTML = "Deletar tarefa?";
 
-            cancel_timer = setTimeout(()=>{lTaskDeleteCancel(last_task_touched, el)}, 3000)
+            setTimeout(()=>{taskDeleteCancel(last_task_touched, el)}, 2000);
         }
     }
 
 
-
+    const update_delay = 1000;
+    var bioUpdateTimeout = null;
     function updateDeckBio(txt)
     {
-        if(bioUpdateTimeout) clearTimeout(bioUpdateTimeout);
+        if(bioUpdateTimeout){ clearTimeout(bioUpdateTimeout); }
 
         bioUpdateTimeout = setTimeout( async () =>
         {
@@ -246,12 +248,114 @@ function setupPage(deckID)
 
                 if(!status.ok) throw new Error("Não foi possível atualizar os dados da Bio.");
 
-                const result = await status.json();
-                console.log(result.status);
             }
 
             catch(err) {console.error(err);}
 
         }, update_delay);
     }
+
+
+    var entryDeletePanelTimer;
+    var last_entry_touched = undefined;
+    async function showEntryDeletePanel(e)
+    {
+        e.stopPropagation();
+        const delete_span = e.target;
+        const journal_entry = delete_span.parentElement;
+        
+        const delete_panel_text = document.createElement('span');
+        delete_panel_text.appendChild(document.createTextNode("Excluir esta entrada do diário?"));
+        
+        // `y` button HTML Object
+        const yes_btn = document.createElement('span');
+        yes_btn.classList.add('entry-delete-yn', 'entry-delete-y');
+        yes_btn.innerHTML = 'y';
+        yes_btn.addEventListener('click', e => deleteJournalEntry(e, journal_entry));
+    
+        // `n` button HTML Object
+        const no_btn = document.createElement('span');
+        no_btn.classList.add('entry-delete-yn', 'entry-delete-n');
+        no_btn.innerHTML = 'n';
+
+        delete_panel_text.appendChild(document.createTextNode(' ('));
+        delete_panel_text.appendChild(yes_btn);
+        delete_panel_text.appendChild(document.createTextNode('/'));
+        delete_panel_text.appendChild(no_btn);
+        delete_panel_text.appendChild(document.createTextNode(')'));
+
+
+
+        
+        // const delete_panel_text = "Tem certeza que deseja apagar <br>esta entrada no diário? (<span class=\"entry-delete-yn entry-delete-y\" onclick=\""+ function(){deleteJournalEntry(journal_entry)} +"\"> y </span>/<span class=\"entry-delete-yn entry-delete-n\"> n </span>)";
+        // const delete_panel_text = "Tem certeza que deseja apagar <br>esta entrada no diário? ( "+yes_btn+"/<span class=\"entry-delete-yn entry-delete-n\"> n </span>)";
+
+
+        if(last_entry_touched)
+        {
+            if(last_entry_touched != delete_span)
+            {
+                if(entryDeletePanelTimer){ clearTimeout(entryDeletePanelTimer); }
+
+                last_entry_touched.innerHTML = "&times;";
+                last_entry_touched = delete_span;
+                last_entry_touched.innerHTML = '';
+                last_entry_touched.appendChild(delete_panel_text);
+    
+                entryDeletePanelTimer = setTimeout( () =>
+                {
+                    last_entry_touched = undefined;
+                    delete_span.innerHTML = "&times;";
+                    clearTimeout(entryDeletePanelTimer);
+                }, 3000);
+            }
+        }
+        else
+        {
+            last_entry_touched = delete_span;
+            last_entry_touched.innerHTML = '';
+            last_entry_touched.appendChild(delete_panel_text);
+
+            entryDeletePanelTimer = setTimeout( () =>
+            {
+                last_entry_touched = undefined;
+                delete_span.innerHTML = "&times;";
+                clearTimeout(entryDeletePanelTimer);
+            }, 3000);
+        }
+    }
+
+
+    async function deleteJournalEntry(event, entry_element)
+    {
+        event.stopPropagation();
+
+        const entry = entry_element;
+        const id = entry.dataset.id;
+        const route = '/api/journal/delete';
+
+        try
+        {
+            const status = await fetch(route,
+            {
+                method: "DELETE",
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({id})
+            })
+
+            if(!status.ok){ throw new Error("Houve um erro ao deletar a entrada de Id "+id+" no diário."); }
+
+            // const result = await status.json();
+            // console.log(result.status);
+
+            entry_element.remove();
+            last_entry_touched = undefined;
+        }
+        
+        catch (err){ console.error(err); }
+    }
+
+
+
+    return [createTask, toggleCheckTask, deleteTask, updateDeckBio, showEntryDeletePanel];
 }

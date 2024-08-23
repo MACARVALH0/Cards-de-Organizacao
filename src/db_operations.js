@@ -139,6 +139,21 @@ function createJournalEntry(deckId)
 }
 
 
+function deleteJournalEntryOp(entry_id)
+{
+    const query = "DELETE FROM JournalEntries WHERE ID = ?";
+
+    return new Promise((resolve, reject) =>
+    {
+        db.run(query, entry_id, function (err)
+        {
+            if(err) reject("Não foi possível completar a operação de deletar a entrada do diário.");
+            else resolve("A entrada de Id "+entry_id+" no diário foi deletada com sucesso.");
+        });
+    })
+
+}
+
 
 module.exports =
 {
@@ -150,5 +165,6 @@ module.exports =
     deleteItem,
     checkItem,
     updateBio,
-    createJournalEntry
+    createJournalEntry,
+    deleteJournalEntryOp
 }

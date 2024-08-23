@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= deck.main.Title %></title>
-    <link rel="stylesheet" href="/css/deckPage.css">
+    <link rel="stylesheet" href="/css/deck-style.css">
     <link rel="stylesheet" href="/css/checkbox.css">
 </head>
 
@@ -13,7 +13,7 @@
 <body>
 <main>
 
-    <div class="content-block"  id="checklist">
+    <section class="content-block"  id="checklist">
         <h3>Lista de tarefas</h3>
         <div id="checklist-items">
 
@@ -41,29 +41,29 @@
 
         </div>
         
-    </div>
+    </section>
 
 
 
 
-    <div class="content-block" id="bio">
+    <section class="content-block" id="bio">
         <h3>Bio</h3>
         <h4>Resumo do projeto</h4>
         <textarea name="bio-text" id="bio-textarea" cols="30" rows="50" oninput="updateDeckBio(this.value)" spellcheck="false"><%= deck.main.mainContent %></textarea>
-    </div>
+    </section>
 
     
 
 
-    <div class="content-block" id="journal">
+    <section class="content-block" id="journal">
         <h3>Diário</h3>
         <div id="journal-entries">
 
 
             <% for (entry of deck.journal_entries) { %>
 
-                <div class="journal-min-entry" data-entry_date="<%=entry.date%>">
-                    <span class="journal-delete-btn">&times;</span>
+                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>">
+                    <span class="journal-entry-delete-btn" onclick="showEntryDeletePanel(event)">&times;</span>
                     <span class="journal-min-entry-date">Dia <%=entry.creationDate || "misterioso"%></span>
                     <span class="journal-min-entry-content"><%=entry.content%></span>
                 </div>
@@ -74,14 +74,22 @@
 
             <% } %>
         </div>
-    </div>
+    </section>
 
 
 </main>
+<script src="/js/deck-controllers.js"></script>
+<script>
+const 
+[
+    createTask,
+    toggleCheckTask,
+    deleteTask,
+    updateDeckBio,
+    showEntryDeletePanel,
+] = setupControllers('<%=deck.main.ID%>');
 
-<script src="/js/deckPage.js"></script>
-<script>window.addEventListener("load", () => {setupPage('<%=deck.main.ID%>')})</script>
-
+</script>
 </body>
 
 </html>

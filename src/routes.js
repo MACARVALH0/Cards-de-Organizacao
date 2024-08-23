@@ -10,7 +10,7 @@ router.post('/checklist/create', controller.createChecklistItem);
 router.delete('/checklist/delete', controller.deleteChecklistItem);
 router.put('/checklist/check', controller.markChecklistItem);
 router.put('/main/update', controller.updateDeckBio);
-router.put('/journal/create', controller.createJournalEntry);
-// router.put('/journal/delete', controller.deleteJournalEntry);
+router.delete('/journal/delete', controller.deleteJournalEntry);
+// router.put('/journal/create', controller.createJournalEntry);
 
 module.exports = router;

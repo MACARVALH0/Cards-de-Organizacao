@@ -42,6 +42,7 @@ exports.setupDeckPage = async (req, res) =>
     
         if(last_entry_date != formatted_date)
         {
+            // FIXME -> Function to create a journal entry 
             const response = await db_op.createJournalEntry(deck_ID);
             const {status, id} = response;
             console.log(status);
@@ -56,12 +57,29 @@ exports.setupDeckPage = async (req, res) =>
             });
         }
     }
+    else
+    {
+        // FIXME -> Function to create a journal entry 
+        const response = await db_op.createJournalEntry(deck_ID);
+        const {status, id} = response;
+        console.log(status);
+        
+        journal_entries.push
+        ({
+            ID: id,
+            deckId: deck_ID,
+            creationDate: formatted_date,
+            title: "Sem título",
+            content: "(vazio)"
+        });
+    }
+
+    journal_entries.forEach(x => x.creationDate = x.creationDate.split('-').reverse().join('/'));
 
 
     const deck = {main, checklist, journal_entries};
-    res.render("deck", { deck });
+    res.render("deckPage", { deck });
 };
-
 
 
 exports.createChecklistItem = async (req, res) =>
@@ -128,11 +146,11 @@ exports.markChecklistItem = async (req, res) =>
 exports.updateDeckBio = async (req, res) =>
 {
     const { id, bioText: text } = req.body;
-
+    
     try
     {
         const status = await db_op.updateBio(text, id);
-        console.log("Bio atualizada.");
+        console.log(status);
         res.json({status});
     }
     catch (err)
@@ -144,19 +162,20 @@ exports.updateDeckBio = async (req, res) =>
 
 
 
-exports.createJournalEntry = async (_, res) =>
+exports.deleteJournalEntry = async (req, res) =>
 {
+    const id = req.body.id;
+
     try
     {
-        const status = db_op.createJournalEntry();
-        console.log("Nova entrada adicionada ao diário.");
-        res.json({status});
+        const result = await db_op.deleteJournalEntryOp(id);
+        console.log(result);
+        res.json({status: result})
     }
 
-    catch (err) 
+    catch (err)
     {
         console.error(err);
         res.status(500).json({err});
     }
-
 }
