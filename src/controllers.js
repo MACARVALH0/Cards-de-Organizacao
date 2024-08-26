@@ -18,6 +18,7 @@ exports.getDeckList = async (_, res) =>
 };
 
 
+
 exports.setupDeckPage = async (req, res) =>
 {
     const deck_ID = req.query.deck_id;
@@ -162,6 +163,25 @@ exports.updateDeckBio = async (req, res) =>
     }
 }
 
+
+exports.createJournalEntry = async (req, res) =>
+{
+    const deck_id = req.body.deck_id;
+
+    try
+    {
+        const result = await db_op.createJournalEntry(deck_id);
+        console.log(result);
+        res.json({status: result});
+    }
+
+
+    catch(err)
+    {
+        console.error(err);
+        res.status(500).json({err});
+    }
+}
 
 
 exports.deleteJournalEntry = async (req, res) =>
