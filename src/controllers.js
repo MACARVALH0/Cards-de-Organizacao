@@ -164,6 +164,8 @@ exports.updateDeckBio = async (req, res) =>
 }
 
 
+
+
 exports.createJournalEntry = async (req, res) =>
 {
     const deck_id = req.body.deck_id;
@@ -182,7 +184,6 @@ exports.createJournalEntry = async (req, res) =>
         res.status(500).json({err});
     }
 }
-
 
 exports.deleteJournalEntry = async (req, res) =>
 {
