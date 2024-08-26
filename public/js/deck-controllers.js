@@ -22,16 +22,46 @@ function setupControllers(deckID)
     new_item_input.addEventListener("blur", (e) => {if(e.target.value == ""){e.target.value = task_placeholder_txt;}});
 
 
-    function getLabel(el){return el.querySelector("label")};
-
-    
-    const getTaskIndex = (opt, list, len) =>
-    { // Retorna o índice da última tarefa em aberto ou da primeira fechada, de acordo com a ordem disposta na lista. 
-        if(opt){for(let i = len-1; i > 0; i--) if(!list[i].querySelector("input").checked) return i;}
-
+    // Retorna o índice da última tarefa em aberto ou da primeira fechada, de acordo com a ordem disposta na lista. 
+    function getTaskIndex (opt, list, len)
+    {
+        if(opt){ for(let i = len-1; i > 0; i--){ if(!list[i].querySelector("input").checked){ return i }; } }
         else for(let i = 0; i < len; i++) if(list[i].querySelector("input").checked) return i;
     }
 
+
+    
+    function createTasklistItemDOMElement(id, title)
+    {
+        const new_item = document.createElement("div");
+        new_item.classList.add("task");
+
+        const checkbox_wrapper = document.createElement("div");
+        checkbox_wrapper.classList.add("checkbox-wrapper");
+        checkbox_wrapper.dataset.id = id;
+        checkbox_wrapper.addEventListener("input", function (e){ toggleCheckTask(e) });
+
+        const item_input = document.createElement("input");
+        item_input.id = "task" + id;
+        item_input.setAttribute("type", "checkbox");
+        
+        const item_label = document.createElement("label");
+        item_label.htmlFor = item_input.id;
+        item_label.innerHTML = title;
+
+        const delete_btn = document.createElement("span");
+        delete_btn.dataset.id = id;
+        delete_btn.innerHTML = "&times;";
+        delete_btn.classList.add("content-delete-btn");
+        delete_btn.addEventListener("click", function(){deleteTask(this.parentElement, this.dataset.id)});
+
+        checkbox_wrapper.append(item_input, item_label);
+        new_item.append(checkbox_wrapper, delete_btn);
+
+
+        let first_item = checklist_items.querySelectorAll(".task")[1]; // Segundo item;
+        checklist_items.insertBefore(new_item, first_item);
+    }
 
     function updateChecklistItemElementPosition(item, to_finish)
     {
@@ -78,43 +108,12 @@ function setupControllers(deckID)
     }
 
 
-    // TODO
-    // Adicionar event listener de input
-    // Adicionar dataset-id com o ID do item
-    function createTasklistItemDOMElement(id, title)
-    {
-        const new_item = document.createElement("div");
-        new_item.classList.add("task");
 
-        const wrapper_div = document.createElement("div");
-        wrapper_div.classList.add("checkbox-wrapper");
-
-        const item_input = document.createElement("input");
-        item_input.id = "task" + id;
-        item_input.setAttribute("type", "checkbox");
-        
-        const item_label = document.createElement("label");
-        item_label.htmlFor = item_input.id;
-        item_label.innerHTML = title;
-
-        const delete_btn = document.createElement("span");
-        delete_btn.dataset.id = id;
-        delete_btn.innerHTML = "&times;";
-        delete_btn.classList.add("content-delete-btn");
-        delete_btn.addEventListener("click", function(){deleteTask(this.parentElement, this.dataset.id)});
-
-        wrapper_div.append(item_input, item_label);
-        new_item.append(wrapper_div, delete_btn);
-
-
-        let first_item = checklist_items.querySelectorAll(".task")[1]; // Segundo item;
-        checklist_items.insertBefore(new_item, first_item);
-    }
 
 
     function taskDeleteCancel(last_element, current_element)
     {
-        getLabel(current_element).innerHTML = last_element.original_txt;
+        current_element.querySelector("label").innerHTML = last_element.original_txt;
         last_element.el = undefined;
     }
 
@@ -153,10 +152,9 @@ function setupControllers(deckID)
 
     async function toggleCheckTask(e)
     {
+        console.log(e);
         const div = e.target.parentElement;
         const is_checked = e.target.checked ? 1 : 0;
-        // const input = div.firstElementChild;
-        // const label = div.lastElementChild;
         
         try
         {
@@ -220,7 +218,7 @@ function setupControllers(deckID)
         }
         else
         {
-            const label = getLabel(el)
+            const label = el.querySelector("label");
             last_task_touched.el = el;
             last_task_touched.original_txt = label.innerHTML;
             label.innerHTML = "Deletar tarefa?";
