@@ -2,16 +2,21 @@ function setupControllers(deckID)
 {
     const deck_ID = deckID;
 
-
     const checklist_DOM = document.querySelector("#checklist");
     const checklist_items = checklist_DOM.querySelector("#checklist-items");
 
     const checklist_new_item = checklist_items.querySelector(".task");
     const new_item_input = checklist_new_item.querySelector("input");
     const task_placeholder_txt = new_item_input.value; // Primeira task
+    var last_task_touched = {el:undefined, original_txt:""};
 
     const bio_DOM = document.querySelector("#bio");
+    const bio_update_delay = 1000;
+    var bioUpdateTimeout = null;
+
     const journal_DOM = document.querySelector("#journal");
+    var entryDeletePanelTimer;
+    var last_entry_touched = undefined;
 
     new_item_input.addEventListener("focus", (e) => {e.target.value = "";});
     new_item_input.addEventListener("blur", (e) => {if(e.target.value == ""){e.target.value = task_placeholder_txt;}});
@@ -26,35 +31,6 @@ function setupControllers(deckID)
 
         else for(let i = 0; i < len; i++) if(list[i].querySelector("input").checked) return i;
     }
-
-
-    async function toggleCheckTask(e)
-    {
-        const div = e.target.parentElement;
-        const is_checked = e.target.checked ? 1 : 0;
-        // const input = div.firstElementChild;
-        // const label = div.lastElementChild;
-        
-        try
-        {
-            const route = '/api/checklist/check';
-
-            const status = await fetch(route,
-            {
-                method: 'PUT',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({id: div.dataset.id, checked: is_checked})
-            })
-
-            if(!status.ok) throw new Error("Não foi possível atualizar o item corretamente.");
-
-            updateChecklistItemElementPosition(div.parentElement, is_checked)
-        }
-
-        catch(err){ console.error(err); }
-    }
-
-
 
 
     function updateChecklistItemElementPosition(item, to_finish)
@@ -101,6 +77,7 @@ function setupControllers(deckID)
         }
     }
 
+
     // TODO
     // Adicionar event listener de input
     // Adicionar dataset-id com o ID do item
@@ -135,6 +112,13 @@ function setupControllers(deckID)
     }
 
 
+    function taskDeleteCancel(last_element, current_element)
+    {
+        getLabel(current_element).innerHTML = last_element.original_txt;
+        last_element.el = undefined;
+    }
+
+
     async function createTask(event, title)
     {
         event.preventDefault();
@@ -143,12 +127,12 @@ function setupControllers(deckID)
 
         try
         {
-            const route = 'checklist/create';
+            const route = '/api/checklist';
             const creation_status = await fetch(route,
             {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({parent_ID: deck_ID, title})
+                body: JSON.stringify({deck_ID, title})
             });
 
             if(!creation_status.ok)
@@ -167,14 +151,33 @@ function setupControllers(deckID)
     }
 
 
-    function taskDeleteCancel(last_element, current_element)
+    async function toggleCheckTask(e)
     {
-        getLabel(current_element).innerHTML = last_element.original_txt;
-        last_element.el = undefined;
+        const div = e.target.parentElement;
+        const is_checked = e.target.checked ? 1 : 0;
+        // const input = div.firstElementChild;
+        // const label = div.lastElementChild;
+        
+        try
+        {
+            const route = '/api/checklist';
+
+            const status = await fetch(route,
+            {
+                method: 'PUT',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({id: div.dataset.id, checked: is_checked})
+            })
+
+            if(!status.ok) throw new Error("Não foi possível atualizar o item corretamente.");
+
+            updateChecklistItemElementPosition(div.parentElement, is_checked)
+        }
+
+        catch(err){ console.error(err); }
     }
 
 
-    var last_task_touched = {el:undefined, original_txt:""};
     async function deleteTask(el, id)
     {
         if(last_task_touched.el)
@@ -184,7 +187,7 @@ function setupControllers(deckID)
                 // Leva para o controlador de exclusão
                 try
                 {
-                    const route = 'checklist/delete';
+                    const route = '/api/checklist';
                     const delete_status = await fetch(route,
                     {
                         method: "DELETE",
@@ -227,15 +230,13 @@ function setupControllers(deckID)
     }
 
 
-    const update_delay = 1000;
-    var bioUpdateTimeout = null;
     function updateDeckBio(txt)
     {
         if(bioUpdateTimeout){ clearTimeout(bioUpdateTimeout); }
 
         bioUpdateTimeout = setTimeout( async () =>
         {
-            const route = '/api/main/update';
+            const route = '/api/main/bio';
 
             try
             {
@@ -252,12 +253,11 @@ function setupControllers(deckID)
 
             catch(err) {console.error(err);}
 
-        }, update_delay);
+        }, bio_update_delay);
     }
 
 
-    var entryDeletePanelTimer;
-    var last_entry_touched = undefined;
+
     async function showEntryDeletePanel(e)
     {
         e.stopPropagation();
@@ -332,7 +332,7 @@ function setupControllers(deckID)
 
         const entry = entry_element;
         const id = entry.dataset.id;
-        const route = '/api/journal/delete';
+        const route = '/api/journal';
 
         try
         {

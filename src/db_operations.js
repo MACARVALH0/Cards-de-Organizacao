@@ -77,6 +77,21 @@ function createItem(parent_ID, title)
 }
 
 
+function checkItem(id, checked)
+{
+
+    const query = "UPDATE ChecklistItems SET finished = ? WHERE ID = ?";
+
+    return new Promise((resolve, reject) =>
+    {
+        db.run(query, [checked, id], (err) =>
+        {
+            if(err) reject("Houve um erro ao interagir com o banco.\n"+err);
+            else resolve("A situação do item foi atualizada.");
+        })
+    });
+}
+
 
 function deleteItem(id)
 {
@@ -92,21 +107,6 @@ function deleteItem(id)
 }
 
 
-
-function checkItem(id, checked)
-{
-
-    const query = "UPDATE ChecklistItems SET finished = ? WHERE ID = ?";
-
-    return new Promise((resolve, reject) =>
-    {
-        db.run(query, [checked, id], (err) =>
-        {
-            if(err) reject("Houve um erro ao interagir com o banco.\n"+err);
-            else resolve("A situação do item foi atualizada.");
-        })
-    });
-}
 
 
 

@@ -18,7 +18,6 @@ exports.getDeckList = async (_, res) =>
 };
 
 
-
 exports.setupDeckPage = async (req, res) =>
 {
     const deck_ID = req.query.deck_id;
@@ -82,13 +81,14 @@ exports.setupDeckPage = async (req, res) =>
 };
 
 
+
 exports.createChecklistItem = async (req, res) =>
 {
-    const { parent_ID, title: item_title } = req.body;
+    const { deck_ID, title: item_title } = req.body;
 
     try
     {
-        const response = await db_op.createItem(parent_ID, item_title);
+        const response = await db_op.createItem(deck_ID, item_title);
         console.log(response.status);
         res.json(response);
     }
@@ -100,6 +100,23 @@ exports.createChecklistItem = async (req, res) =>
     }
 }
 
+
+exports.markChecklistItem = async (req, res) =>
+{
+    const {id, checked} = req.body;
+
+    try
+    {
+        const status = await db_op.checkItem(id, checked);
+        res.json({status});
+    }
+
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({err});
+    }
+}
 
 
 exports.deleteChecklistItem = async (req, res) =>
@@ -124,22 +141,7 @@ exports.deleteChecklistItem = async (req, res) =>
 
 
 
-exports.markChecklistItem = async (req, res) =>
-{
-    const {id, checked} = req.body;
 
-    try
-    {
-        const status = await db_op.checkItem(id, checked);
-        res.json({status});
-    }
-
-    catch (err)
-    {
-        console.error(err);
-        res.status(500).json({err});
-    }
-}
 
 
 
