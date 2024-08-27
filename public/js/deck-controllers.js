@@ -29,8 +29,6 @@ function setupControllers(deckID)
         else for(let i = 0; i < len; i++) if(list[i].querySelector("input").checked) return i;
     }
 
-
-    
     function createTasklistItemDOMElement(id, title)
     {
         const new_item = document.createElement("div");
@@ -107,14 +105,72 @@ function setupControllers(deckID)
         }
     }
 
-
-
-
-
     function taskDeleteCancel(last_element, current_element)
     {
         current_element.querySelector("label").innerHTML = last_element.original_txt;
         last_element.el = undefined;
+    }
+    
+    function showEntryDeletePanel(e)
+    {
+        e.stopPropagation();
+        const delete_span = e.target;
+        const journal_entry = delete_span.parentElement;
+        
+        const delete_panel_text = document.createElement('span');
+        delete_panel_text.appendChild(document.createTextNode("Excluir esta entrada do diário?"));
+        
+        // `y` button HTML Object
+        const yes_btn = document.createElement('span');
+        yes_btn.classList.add('entry-delete-yn', 'entry-delete-y');
+        yes_btn.innerHTML = 'y';
+        yes_btn.addEventListener('click', e => deleteJournalEntry(e, journal_entry));
+    
+        // `n` button HTML Object
+        const no_btn = document.createElement('span');
+        no_btn.classList.add('entry-delete-yn', 'entry-delete-n');
+        no_btn.innerHTML = 'n';
+
+        delete_panel_text.appendChild(document.createTextNode(' ('));
+        delete_panel_text.appendChild(yes_btn);
+        delete_panel_text.appendChild(document.createTextNode('/'));
+        delete_panel_text.appendChild(no_btn);
+        delete_panel_text.appendChild(document.createTextNode(')'));
+
+
+        if(last_entry_touched)
+        {
+            if(last_entry_touched != delete_span)
+            {
+                if(entryDeletePanelTimer){ clearTimeout(entryDeletePanelTimer); }
+
+                last_entry_touched.innerHTML = "&times;";
+                last_entry_touched = delete_span;
+                last_entry_touched.innerHTML = '';
+                last_entry_touched.appendChild(delete_panel_text);
+    
+                entryDeletePanelTimer = setTimeout( () =>
+                {
+                    last_entry_touched = undefined;
+                    delete_span.innerHTML = "&times;";
+                    clearTimeout(entryDeletePanelTimer);
+                }, 3000);
+            }
+        }
+
+        else
+        {
+            last_entry_touched = delete_span;
+            last_entry_touched.innerHTML = '';
+            last_entry_touched.appendChild(delete_panel_text);
+
+            entryDeletePanelTimer = setTimeout( () =>
+            {
+                last_entry_touched = undefined;
+                delete_span.innerHTML = "&times;";
+                clearTimeout(entryDeletePanelTimer);
+            }, 3000);
+        }
     }
 
 
@@ -149,7 +205,6 @@ function setupControllers(deckID)
         catch(err) {console.error("Não foi possível adicionar o elemento HTML do item à checklist.\n", err);}
     }
 
-
     async function toggleCheckTask(e)
     {
         console.log(e);
@@ -174,7 +229,6 @@ function setupControllers(deckID)
 
         catch(err){ console.error(err); }
     }
-
 
     async function deleteTask(el, id)
     {
@@ -228,7 +282,7 @@ function setupControllers(deckID)
     }
 
 
-    function updateDeckBio(txt)
+    async function updateDeckBio(txt)
     {
         if(bioUpdateTimeout){ clearTimeout(bioUpdateTimeout); }
 
@@ -256,72 +310,6 @@ function setupControllers(deckID)
 
 
 
-    async function showEntryDeletePanel(e)
-    {
-        e.stopPropagation();
-        const delete_span = e.target;
-        const journal_entry = delete_span.parentElement;
-        
-        const delete_panel_text = document.createElement('span');
-        delete_panel_text.appendChild(document.createTextNode("Excluir esta entrada do diário?"));
-        
-        // `y` button HTML Object
-        const yes_btn = document.createElement('span');
-        yes_btn.classList.add('entry-delete-yn', 'entry-delete-y');
-        yes_btn.innerHTML = 'y';
-        yes_btn.addEventListener('click', e => deleteJournalEntry(e, journal_entry));
-    
-        // `n` button HTML Object
-        const no_btn = document.createElement('span');
-        no_btn.classList.add('entry-delete-yn', 'entry-delete-n');
-        no_btn.innerHTML = 'n';
-
-        delete_panel_text.appendChild(document.createTextNode(' ('));
-        delete_panel_text.appendChild(yes_btn);
-        delete_panel_text.appendChild(document.createTextNode('/'));
-        delete_panel_text.appendChild(no_btn);
-        delete_panel_text.appendChild(document.createTextNode(')'));
-
-
-
-        
-        // const delete_panel_text = "Tem certeza que deseja apagar <br>esta entrada no diário? (<span class=\"entry-delete-yn entry-delete-y\" onclick=\""+ function(){deleteJournalEntry(journal_entry)} +"\"> y </span>/<span class=\"entry-delete-yn entry-delete-n\"> n </span>)";
-        // const delete_panel_text = "Tem certeza que deseja apagar <br>esta entrada no diário? ( "+yes_btn+"/<span class=\"entry-delete-yn entry-delete-n\"> n </span>)";
-
-
-        if(last_entry_touched)
-        {
-            if(last_entry_touched != delete_span)
-            {
-                if(entryDeletePanelTimer){ clearTimeout(entryDeletePanelTimer); }
-
-                last_entry_touched.innerHTML = "&times;";
-                last_entry_touched = delete_span;
-                last_entry_touched.innerHTML = '';
-                last_entry_touched.appendChild(delete_panel_text);
-    
-                entryDeletePanelTimer = setTimeout( () =>
-                {
-                    last_entry_touched = undefined;
-                    delete_span.innerHTML = "&times;";
-                    clearTimeout(entryDeletePanelTimer);
-                }, 3000);
-            }
-        }
-        else
-        {
-            last_entry_touched = delete_span;
-            last_entry_touched.innerHTML = '';
-            last_entry_touched.appendChild(delete_panel_text);
-
-            entryDeletePanelTimer = setTimeout( () =>
-            {
-                last_entry_touched = undefined;
-                delete_span.innerHTML = "&times;";
-                clearTimeout(entryDeletePanelTimer);
-            }, 3000);
-        }
-    }
 
 
     async function deleteJournalEntry(event, entry_element)
