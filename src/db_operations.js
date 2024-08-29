@@ -150,7 +150,6 @@ function writeJournalEntryContent(journal_id, content)
             else{ resolve("O conteúdo da entrada foi atualizado com sucesso."); }
         });
     });
-    
 }
 
 function deleteJournalEntryOp(entry_id)
@@ -180,5 +179,6 @@ module.exports =
     checkItem,
     updateBio,
     createJournalEntry,
+    writeJournalEntryContent,
     deleteJournalEntryOp
 }
