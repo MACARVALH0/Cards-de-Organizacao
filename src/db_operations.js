@@ -152,6 +152,7 @@ function writeJournalEntryContent(journal_id, content)
     });
 }
 
+
 function deleteJournalEntryOp(entry_id)
 {
     const query = "DELETE FROM JournalEntries WHERE ID = ?";
