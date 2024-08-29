@@ -45,12 +45,7 @@ Cada deck, conforme apresentado inicialmente na execução do aplicativo contém
             <td></td>
         </tr>
         <tr>
-            <td rowspan="4"><strong>/checklist</strong></td>
-            <td><em>GET</em></td>
-            <td>Retorna os itens da checklist de um deck.</td>
-            <td></td>
-        </tr>
-        <tr>
+            <td rowspan="3"><strong>/checklist</strong></td>
             <td><em>POST</em></td>
             <td>Rota para criar um novo item na checklist.</td>
             <td>
@@ -91,9 +86,26 @@ Cada deck, conforme apresentado inicialmente na execução do aplicativo contém
             </td>
         </tr>
         <tr>
-            <td><strong>/journal</strong></td>
+            <td rowspan="3"><strong>/journal</strong></td>
+            <td><em>POST</em></td>
+            <td>Rota para criar uma entrada no diário.</td>
+            <td>
+                <ul>
+                    <li><code>id</code>: <i>Integer.</i> Código de ID da entrada do diário.</li>
+                </ul>
+            </td>
+        </tr>
+            <td><em>PUT</em></td>
+            <td>Rota para sobrescrever uma entrada no diário.</td>
+            <td>
+                <ul>
+                    <li><code>id</code>: <i>Integer.</i> Código de ID da entrada no diário.</li>
+                    <li><code>content</code>: <i>String.</i> Conteúdo da entrada do diário.</li>
+                </ul>
+            </td>
+        </tr>
             <td><em>DELETE</em></td>
-            <td>Rota para deletar uma entrada no diário.</td>
+            <td>Rota deletar o uma entrada no diário.</td>
             <td>
                 <ul>
                     <li><code>id</code>: <i>Integer.</i> Código de ID da entrada do diário.</li>
