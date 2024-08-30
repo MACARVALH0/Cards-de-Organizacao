@@ -173,7 +173,6 @@ function setupControllers(deckID)
         }
     }
 
-
     async function createTask(event, title)
     {
         event.preventDefault();

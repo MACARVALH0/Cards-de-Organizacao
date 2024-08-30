@@ -139,6 +139,20 @@ function createJournalEntry(deckId)
 }
 
 
+function writeJournalEntryContent(journal_id, content)
+{
+    const query = "UPDATE JournalEntries SET content = ? WHERE ID = ?";
+    return new Promise((resolve, reject) =>
+    {
+        db.run(query, [content, journal_id], (err) =>
+        {
+            if(err){ reject("Não foi posssível atualzar o conteúdo da entrada do diário."); }
+            else{ resolve("O conteúdo da entrada foi atualizado com sucesso."); }
+        });
+    });
+}
+
+
 function deleteJournalEntryOp(entry_id)
 {
     const query = "DELETE FROM JournalEntries WHERE ID = ?";
@@ -166,5 +180,6 @@ module.exports =
     checkItem,
     updateBio,
     createJournalEntry,
+    writeJournalEntryContent,
     deleteJournalEntryOp
 }
