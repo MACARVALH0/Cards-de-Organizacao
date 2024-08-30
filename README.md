@@ -9,7 +9,7 @@ Cada deck, conforme apresentado inicialmente na execução do aplicativo contém
 - Um espaço de "biografia", que permite uma definição mais descritiva de seu uso. a escrita de informações não correlatas, uma agenda, etc;
 - Um espaço de diário que permite ao usuário, de acordo com o dia, anotar seus pensamentos e ideias.
 
-## Guia de uso
+## Guia de acesso
 ### Do aplicativo:
 #### Ferramentas necessárias:
 1. Node.js;
