@@ -5,5 +5,4 @@ window.addEventListener("load", async () =>
     const decks = await getDecks();
     console.log(decks);
     createDeckElements(decks);
-
 });

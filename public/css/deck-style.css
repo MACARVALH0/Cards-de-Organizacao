@@ -223,6 +223,8 @@ main section
 
 
 
+
+
 .modal
 {
     display: none;
@@ -346,6 +348,8 @@ main section
 
 
 
+
+
 #journal
 {
     max-height: 90vh;
@@ -422,8 +426,7 @@ div.journal-min-entry:hover
     transition-duration: .3s;
     width: 95%;
 }
-.journal-min-entry-cont
-ent:focus
+.journal-min-entry-content:focus
 {
     outline: transparent;
 }
