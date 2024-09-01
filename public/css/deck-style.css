@@ -225,124 +225,6 @@ main section
 
 
 
-.modal
-{
-    display: none;
-    position: fixed;
-    z-index: 1;
-
-    top: 0px;
-    width: 100%;
-    height: 100%;
-
-    margin: 0px;
-
-    border-style: solid;
-    border-width: 1px 2px 3px;
-    border-radius: 10px;
-    border-color: rgb(174, 235, 226);
-
-    background-color: rgba(60, 60, 60, .3);
-}
-
-.modal-box
-{
-    display: flex;
-    margin: auto;
-    width: 60%;
-    min-height: 60vh;
-    max-height: 90vh;
-    flex-direction: column;
-    justify-content: center;
-    flex-wrap: nowrap;
-}
-
-
-.modal-box-header
-{
-    padding: 3px 0px 3px;
-    border-radius: 5px 5px 0px 0px;
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    background-color: rgb(174, 235, 226);
-    justify-content: space-evenly;
-    align-content: flex-start;
-    align-items: baseline;
-    flex-direction: row;
-    flex-wrap: nowrap;
-}
-.modal-box-header p:first-child
-{
-    position: relative;
-
-    flex: 1;
-    left: 10px;
-    margin: 0px;
-    padding: 5px 0px 7px;
-    color: rgb(60,60,60);
-    font-family: inherit;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-}
-
-
-/* Div de elementos de ação no canto superior direito */
-.modal-box-header-action 
-{
-    user-select: none;
-    cursor: pointer;
-    display: block;
-
-    position: relative;
-    flex: 0;
-    right: 20px;
-    font-size: large;
-    font-weight: bold;
-
-    background-color: rgb(140, 210, 230);
-    border-radius: 15px;
-
-}
-/* Divs de elementos de ação no canto superior direito */
-.modal-box-header-action div
-{
-    padding: 2px 8px 5px;
-    border-radius: 50%;
-    background-color: rgb(140, 210, 230);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition-duration: .3s;
-}
-/* Divs de elementos de ação no canto superior direito :hover */
-.modal-box-header-action div:hover
-{
-    background-color: rgb(230, 240, 255);
-    cursor: pointer;
-}
-
-
-
-.modal-box-content
-{
-    padding: 10px;
-    min-height: fit-content;
-    height: 100%;
-    max-height: 90vh;
-    background-color: rgb(245, 235, 235);
-}
-
-.modal-box-content textarea
-{
-    height: 100%;
-    max-height: 60vh;
-    background-color: rgb(240, 230, 220);
-}
-
-
 
 
 
@@ -463,3 +345,15 @@ div.journal-min-entry:hover
     outline: 0px;
 }
 
+
+
+#journal-modal
+{
+    display: none;
+    width: 0px;
+    height: 85vh;
+
+    background-color: rgb(245, 235, 235);
+    box-shadow: 10px 20px 5px rgb(60, 60, 60);
+    transition-duration: 1s;
+}
