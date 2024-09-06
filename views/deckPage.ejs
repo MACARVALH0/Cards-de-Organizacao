@@ -73,17 +73,28 @@
 
             <% } %>
         </div>
-        <div id="journal-modal">
-            <div id="journal-modal-header"></div>
-            <div id="journal-modal-body"></div>
+        <div id="journal-modal"> <!-- Modal background -->
+            <div id="journal-modal-box"> <!-- Actual modal box -->
+
+                <div id="journal-modal-header">
+                    <div id="journal-modal-action">
+                        <div id="journal-modal-entry-delete">&times;</div>
+                        <div id="journal-modal-close">&gt;</div>
+                    </div>
+                    <p id="journal-modal-title"><textarea name="entry-title" id="journal-entry-title" cols="30" rows="1" value="Título"></textarea></p>
+                </div>
+                
+                <div id="journal-modal-body">
+                    <textarea name="entry-body" id="journal-entry-body" cols="30" rows="12" spellcheck="false"></textarea>    
+                </div>
+
+            </div>
+
         </div>>
     </section>
 
 
 </main>
-<script src="/js/deck-global.js"></script>
-<script src="/js/deck-util.js"></script>
-<script src="/js/deck-main.js"></script>
 <script src="/js/deck-controllers.js"></script>
 <script>
 const 
@@ -92,10 +103,13 @@ const
     toggleCheckTask,
     deleteTask,
     updateDeckBio,
-    showEntryDeletePanel,
+    deleteJournalEntry
 ] = setupControllers('<%=deck.main.ID%>');
-
 </script>
+<script src="/js/deck-global.js"></script>
+<script src="/js/deck-util.js"></script>
+<script src="/js/deck-main.js"></script>
+
 </body>
 
 </html>

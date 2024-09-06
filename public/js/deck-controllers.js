@@ -2,8 +2,6 @@ function setupControllers(deckID)
 {
     const deck_ID = deckID;
     
-    // Retorna o índice da última tarefa em aberto ou da primeira fechada, de acordo com a ordem disposta na lista. 
-
 
     async function createTask(event, title)
     {
@@ -36,6 +34,7 @@ function setupControllers(deckID)
         catch(err) {console.error("Não foi possível adicionar o elemento HTML do item à checklist.\n", err);}
     }
 
+
     async function toggleCheckTask(e)
     {
         console.log(e);
@@ -60,6 +59,7 @@ function setupControllers(deckID)
 
         catch(err){ console.error(err); }
     }
+
 
     var last_task_touched = {el:undefined, original_txt:""};
     async function deleteTask(el, id)
@@ -142,7 +142,6 @@ function setupControllers(deckID)
     }
 
 
-
     var entryDeletePanelTimer;
     var last_entry_touched = undefined;
     async function deleteJournalEntry(event, entry_element)
@@ -175,6 +174,5 @@ function setupControllers(deckID)
     }
 
 
-
-    return [createTask, toggleCheckTask, deleteTask, updateDeckBio, showEntryDeletePanel];
+    return [createTask, toggleCheckTask, deleteTask, updateDeckBio, deleteJournalEntry];
 }

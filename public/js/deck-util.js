@@ -1,3 +1,4 @@
+// Retorna o índice da última tarefa em aberto ou da primeira fechada, de acordo com a ordem disposta na lista. 
 function getTaskIndex (opt, list, len)
 {
     if(opt){ for(let i = len-1; i > 0; i--){ if(!list[i].querySelector("input").checked){ return i }; } }
@@ -86,6 +87,7 @@ function taskDeleteCancel(last_element, current_element)
     last_element.el = undefined;
 }
 
+var last_entry_touched = undefined;
 function showEntryDeletePanel(e)
 {
     e.stopPropagation();
