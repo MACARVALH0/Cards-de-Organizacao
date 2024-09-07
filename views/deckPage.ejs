@@ -61,27 +61,28 @@
 
             <% for (entry of deck.journal_entries) { %>
 
-                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>">
+                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>" onclick="setupJournalEntryModal(event.target)">
                     <span class="journal-entry-delete-btn" onclick="showEntryDeletePanel(event)">&times;</span>
+                    <span class="journal-min-entry-title"><%=entry.title%></span>
                     <span class="journal-min-entry-date">Dia <%=entry.creationDate || "misterioso"%></span>
                     <span class="journal-min-entry-content"><%=entry.content%></span>
                 </div>
 
-                <div class="journal-entry">
+                <!-- <div class="journal-entry">
                     <p><%=entry.Title%></p>
-                </div>
+                </div> -->
 
             <% } %>
         </div>
         <div id="journal-modal"> <!-- Modal background -->
-            <div id="journal-modal-box"> <!-- Actual modal box -->
+            <div id="journal-modal-box" data-current_id=""> <!-- Actual modal box -->
 
                 <div id="journal-modal-header">
                     <div id="journal-modal-action">
                         <div id="journal-modal-entry-delete">&times;</div>
-                        <div id="journal-modal-close">&gt;</div>
+                        <div id="journal-modal-close" onclick="hideJournalEntryModal()">&gt;</div>
                     </div>
-                    <p id="journal-modal-title"><textarea name="entry-title" id="journal-entry-title" cols="30" rows="1" value="Título"></textarea></p>
+                    <p id="journal-modal-title"><textarea name="entry-title" id="journal-entry-title" cols="30" rows="1" value="Título" maxlength="40"></textarea></p>
                 </div>
                 
                 <div id="journal-modal-body">

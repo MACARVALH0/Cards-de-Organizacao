@@ -2,7 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap');
 
-
+:root
+{
+    --journal-entry-title-font-size: 16px;
+    --journal-entry-body-font-size: 14px;
+}
 
 body
 {
@@ -292,9 +296,15 @@ div.journal-min-entry:hover
 }
 .journal-min-entry-date
 {
+    font-size: 14px;
     font-weight: bold;
     padding: 2px 2px 8px;
     border-top: 3px solid rgb(60, 60, 60);
+}
+.journal-min-entry-title
+{
+    font-weight: bold;
+    font-style: italic;
 }
 .journal-min-entry-content
 {
@@ -376,6 +386,8 @@ div.journal-min-entry:hover
     height: 90%;
     background-color: rgb(253, 231, 231);
     border-left: 5px dashed rgb(155, 91, 91);
+
+    overflow: hidden;
 }
 
 #journal-modal-header
@@ -422,14 +434,15 @@ div.journal-min-entry:hover
 #journal-modal-title
 {
     width: 80%;
-    height: 20px;
+    height: var(--journal-entry-title-font-size);
 
 }
 #journal-modal-title textarea
 {
     resize: none;
 
-    overflow-y: scroll;
+    font-size: var(--journal-entry-title-font-size);
+    overflow-y: hidden;
     height: 100%;
     width: 100%;
     background-color: red;
@@ -439,16 +452,18 @@ div.journal-min-entry:hover
 
 #journal-modal-body
 {
+    font-size: var(--journal-entry-body-font-size);
+
     height: 90%;
     margin: auto 0px;
     margin-top: 20px;
-
 
 }
 #journal-modal-body textarea
 {
     resize: none;
     margin: 0px;
+    padding: 2px;
     background-color: blue;
     overflow-y: scroll;
     height: 100%;

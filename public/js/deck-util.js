@@ -149,3 +149,55 @@ function showEntryDeletePanel(e)
         }, 3000);
     }
 }
+
+
+function showJournalEntryModal(entry)
+{
+    console.log(`Click no diário ${Array.from(journal_entries).indexOf(entry)}.`);
+
+    if(journal_modal.style.display != "block")
+    {
+        journal_modal.style.display = "block";
+
+        window.requestAnimationFrame(()=>
+        {
+            journal_modal.style.width = "45vw";
+            journal_modal.style.height = window.innerHeight * 0.9;
+        });
+    }
+
+    else { return; }
+}
+
+function hideJournalEntryModal()
+{
+    requestAnimationFrame(()=>
+    {
+        journal_modal.style.width = "0px";
+        setTimeout(()=>
+        {
+            journal_modal.style.display = "none";
+        }, 500);
+    });
+}
+
+
+// TODO
+var last_entry_id = null;
+function setupJournalEntryModal(element)
+{
+    const cur_id = element.dataset.id;
+    if(cur_id == last_entry_id){ return; }
+
+    last_entry_id = cur_id;
+    console.log("O id do item é", cur_id);
+
+    const title = element.querySelector(".journal-min-entry-title").innerHTML;
+    const content = element.querySelector(".journal-min-entry-content").innerHTML;
+
+    journal_modal_title.value = title;
+    journal_modal_body.value = content;
+
+    showJournalEntryModal(element);
+}
+
