@@ -184,19 +184,25 @@ function hideJournalEntryModal()
 
 // TODO
 var last_entry_id = null;
-function setupJournalEntryModal(element)
+function setupJournalEntryModal(e)
 {
+    e.stopPropagation();
+
+    const target = e.target;
+    const element = target.closest(".journal-min-entry");
+
     const cur_id = element.dataset.id;
-    if(cur_id == last_entry_id){ return; }
-
-    last_entry_id = cur_id;
-    console.log("O id do item é", cur_id);
-
-    const title = element.querySelector(".journal-min-entry-title").innerHTML;
-    const content = element.querySelector(".journal-min-entry-content").innerHTML;
-
-    journal_modal_title.value = title;
-    journal_modal_body.value = content;
+    if(cur_id != last_entry_id)
+    {
+        last_entry_id = cur_id;
+        console.log("O id do item é", cur_id);
+    
+        const title = element.querySelector(".journal-min-entry-title").innerHTML;
+        const content = element.querySelector(".journal-min-entry-content").innerHTML;
+    
+        journal_modal_title.value = title;
+        journal_modal_body.value = content;
+    }
 
     showJournalEntryModal(element);
 }

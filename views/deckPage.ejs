@@ -61,7 +61,7 @@
 
             <% for (entry of deck.journal_entries) { %>
 
-                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>" onclick="setupJournalEntryModal(event.target)">
+                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>" onclick="setupJournalEntryModal(event)">
                     <span class="journal-entry-delete-btn" onclick="showEntryDeletePanel(event)">&times;</span>
                     <span class="journal-min-entry-title"><%=entry.title%></span>
                     <span class="journal-min-entry-date">Dia <%=entry.creationDate || "misterioso"%></span>
