@@ -11,7 +11,8 @@ router.put('/checklist', controller.markChecklistItem);
 router.delete('/checklist', controller.deleteChecklistItem);
 router.put('/main/bio', controller.updateDeckBio);
 router.post('/journal', controller.createJournalEntry);
-router.put('/journal', controller.writeJournalEntry);
 router.delete('/journal', controller.deleteJournalEntry);
+router.put('/journal', controller.updateJournalEntry);
+
 
 module.exports = router;

@@ -199,7 +199,8 @@ function setupJournalEntryModal(e)
     
         const title = element.querySelector(".journal-min-entry-title").innerHTML;
         const content = element.querySelector(".journal-min-entry-content").innerHTML;
-    
+        
+        journal_modal_box.dataset.current_id = cur_id;
         journal_modal_title.value = title;
         journal_modal_body.value = content;
     }

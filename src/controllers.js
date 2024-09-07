@@ -185,13 +185,14 @@ exports.createJournalEntry = async (req, res) =>
     }
 }
 
-exports.writeJournalEntry = async (req, res) =>
+
+exports.updateJournalEntry = async (req, res) =>
 {
-    const [id, content] = req.params.body;
+    const { id, txt, isMain } = req.params.body;
 
     try
     {
-        const result = await db_op.writeJournalEntryContent(id, content);
+        const result = await db_op.updateJournalEntryOp(id, txt, isMainContent);
         res.json({result});
     }
 
@@ -201,6 +202,7 @@ exports.writeJournalEntry = async (req, res) =>
         res.status(500).json({err});
     }
 }
+
 
 exports.deleteJournalEntry = async (req, res) =>
 {

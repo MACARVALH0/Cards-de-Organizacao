@@ -132,7 +132,7 @@ function setupControllers(deckID)
                     body: JSON.stringify({id: deck_ID, bioText: txt})
                 });
 
-                if(!status.ok) throw new Error("Não foi possível atualizar os dados da Bio.");
+                if(!status.ok){ throw new Error("Não foi possível atualizar os dados da Bio."); };
 
             }
 
@@ -173,6 +173,42 @@ function setupControllers(deckID)
         catch (err){ console.error(err); }
     }
 
+    var journalEntryTitleUpdateTimeout = null;
+    function updateJournalEntry(e, isMainContent)
+    {
+        if(journalEntryBodyUpdateTimeout){ clearTimeout(journalEntryBodyUpdateTimeout); }
 
-    return [createTask, toggleCheckTask, deleteTask, updateDeckBio, deleteJournalEntry];
+        journalEntryTitleUpdateTimeout = setTimeout( async () =>
+        {
+            const text = e.target.value;
+            const id = journal_modal_box.dataset.current_id;
+            if(!id){ return; }
+
+            console.log(id, text, isMainContent);
+
+            const route = '/api/journal';
+            try
+            {
+                const status = await fetch(route,
+                {
+                    method: "PUT",
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify({id, txt: text, isMain: isMainContent})
+                });
+
+                if(!status.ok){ throw new Error("Houve um problema no processo de atualização do conteúdo do diário."); }
+            }
+
+            catch(err)
+            {
+                console.error(`Não foi possível atualizar o ${isMainContent?"conteúdo":"título"} da entrada no diário.`);
+            }
+
+        }, bio_update_delay);
+    }
+
+    var journalEntryBodyUpdateTimeout = null;
+
+
+    return [createTask, toggleCheckTask, deleteTask, updateDeckBio, deleteJournalEntry, updateJournalEntry];
 }
