@@ -137,12 +137,11 @@ function setupControllers(deckID)
 
             catch(err) {console.error(err);}
 
-        }, bio_update_delay);
+        }, 2000);
     }
 
 
-    var entryDeletePanelTimer;
-    var last_entry_touched = undefined;
+    var last_entry_touched = null;
     async function deleteJournalEntry(event, entry_element)
     {
         event.stopPropagation();
@@ -166,24 +165,28 @@ function setupControllers(deckID)
             // console.log(result.status);
 
             entry_element.remove();
-            last_entry_touched = undefined;
+            last_entry_touched = null;
         }
         
         catch (err){ console.error(err); }
     }
 
     var journalEntryUpdateTimeout = null;
-    function updateJournalEntry(e, isMainContent)
+    function updateJournalEntry(e, isMainContent, element)
     {
         if(journalEntryUpdateTimeout){ clearTimeout(journalEntryUpdateTimeout); }
 
         journalEntryUpdateTimeout = setTimeout( async () =>
         {
             const text = e.target.value;
+
             const id = journal_modal_box.dataset.current_id;
             if(!id){ return; }
 
-            console.log("Updating journal entry content.");
+            if(isMainContent)
+            { element.querySelector(".journal-min-entry-content").innerHTML = text; }
+            else
+            { element.querySelector(".journal-min-entry-title").innerHTML = text; }
 
             const route = '/api/journal';
             try
@@ -203,7 +206,7 @@ function setupControllers(deckID)
                 console.error(`Não foi possível atualizar o ${isMainContent?"conteúdo":"título"} da entrada no diário.`);
             }
 
-        }, bio_update_delay);
+        }, 1000);
     }
 
 

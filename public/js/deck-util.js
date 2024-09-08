@@ -131,7 +131,7 @@ function showEntryDeletePanel(e)
                 last_entry_touched = undefined;
                 delete_span.innerHTML = "&times;";
                 clearTimeout(entryDeletePanelTimer);
-            }, 3000);
+            }, 2000);
         }
     }
 
@@ -182,7 +182,6 @@ function hideJournalEntryModal()
 }
 
 
-// TODO
 var last_entry_id = null;
 function setupJournalEntryModal(e)
 {
@@ -194,6 +193,7 @@ function setupJournalEntryModal(e)
     const cur_id = element.dataset.id;
     if(cur_id != last_entry_id)
     {
+        last_entry_element = element;
         last_entry_id = cur_id;
         console.log("O id do item é", cur_id);
     
@@ -207,4 +207,3 @@ function setupJournalEntryModal(e)
 
     showJournalEntryModal(element);
 }
-
