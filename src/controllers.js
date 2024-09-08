@@ -188,11 +188,11 @@ exports.createJournalEntry = async (req, res) =>
 
 exports.updateJournalEntry = async (req, res) =>
 {
-    const { id, txt, isMain } = req.params.body;
+    const { id, txt, isMain } = req.body;
 
     try
     {
-        const result = await db_op.updateJournalEntryOp(id, txt, isMainContent);
+        const result = await db_op.updateJournalEntryOp(id, txt, isMain);
         res.json({result});
     }
 

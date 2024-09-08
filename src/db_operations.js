@@ -142,8 +142,8 @@ function createJournalEntry(deckId)
 function updateJournalEntryOp(journal_id, txt, isMainContent)
 {
     const query = isMainContent
-    ? "UPDATE JournalEntries SET title = ? WHERE ID = ?"
-    : "UPDATE JournalEntries SET content = ? WHERE ID = ?";
+    ? "UPDATE JournalEntries SET content = ? WHERE ID = ?"
+    : "UPDATE JournalEntries SET title = ? WHERE ID = ?"
     
     return new Promise((resolve, reject) =>
     {

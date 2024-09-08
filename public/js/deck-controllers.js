@@ -37,7 +37,6 @@ function setupControllers(deckID)
 
     async function toggleCheckTask(e)
     {
-        console.log(e);
         const div = e.target.parentElement;
         const is_checked = e.target.checked ? 1 : 0;
         
@@ -132,7 +131,7 @@ function setupControllers(deckID)
                     body: JSON.stringify({id: deck_ID, bioText: txt})
                 });
 
-                if(!status.ok){ throw new Error("Não foi possível atualizar os dados da Bio."); };
+                if(!status.ok){ throw new Error("Não foi possível atualizar os dados da Bio."); }
 
             }
 
@@ -173,18 +172,18 @@ function setupControllers(deckID)
         catch (err){ console.error(err); }
     }
 
-    var journalEntryTitleUpdateTimeout = null;
+    var journalEntryUpdateTimeout = null;
     function updateJournalEntry(e, isMainContent)
     {
-        if(journalEntryBodyUpdateTimeout){ clearTimeout(journalEntryBodyUpdateTimeout); }
+        if(journalEntryUpdateTimeout){ clearTimeout(journalEntryUpdateTimeout); }
 
-        journalEntryTitleUpdateTimeout = setTimeout( async () =>
+        journalEntryUpdateTimeout = setTimeout( async () =>
         {
             const text = e.target.value;
             const id = journal_modal_box.dataset.current_id;
             if(!id){ return; }
 
-            console.log(id, text, isMainContent);
+            console.log("Updating journal entry content.");
 
             const route = '/api/journal';
             try
@@ -206,8 +205,6 @@ function setupControllers(deckID)
 
         }, bio_update_delay);
     }
-
-    var journalEntryBodyUpdateTimeout = null;
 
 
     return [createTask, toggleCheckTask, deleteTask, updateDeckBio, deleteJournalEntry, updateJournalEntry];
