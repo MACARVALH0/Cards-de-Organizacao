@@ -207,3 +207,18 @@ function setupJournalEntryModal(e)
 
     showJournalEntryModal(element);
 }
+
+function updateEntryMinContent(text, element, isMain)
+{
+    const trim_text = text.trim()
+    if(isMain)
+    {
+        element.querySelector(".journal-min-entry-content").innerHTML
+        =  trim_text == "" ? "(vazio)" : trim_text;
+    }
+    else
+    {
+        element.querySelector(".journal-min-entry-title").innerHTML
+        = trim_text == "" ? "Sem título" : trim_text;
+    }
+}

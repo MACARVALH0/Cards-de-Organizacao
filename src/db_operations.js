@@ -1,6 +1,5 @@
 const db = require('./db')
 
-
 function getDecks()
 {
     const query = "SELECT * FROM Decks";
@@ -13,7 +12,6 @@ function getDecks()
         });
     });
 }
-
 
 
 function getDeckMainContent(deck_ID)
@@ -108,8 +106,6 @@ function deleteItem(id)
 
 
 
-
-
 function updateBio(txt, id)
 {
     const query = "UPDATE Decks SET mainContent = ? WHERE ID = ?";
@@ -125,12 +121,12 @@ function updateBio(txt, id)
 
 
 
-function createJournalEntry(deckId)
+function createJournalEntry(deckId, date)
 {
-    const query = "INSERT INTO JournalEntries (deckId) VALUES (?)";
+    const query = "INSERT INTO JournalEntries (deckId, creationDate) VALUES (?, ?)";
     return new Promise((resolve, reject) =>
     {
-        db.run(query, deckId, function (err)
+        db.run(query, [deckId, date], function (err)
         {
             if(err) reject("Não foi possível adicionar uma nova entrada ao diário.\n"+err);
             else resolve({status:"A entrada do dia foi adicionada ao diário.", id: this.lastID});

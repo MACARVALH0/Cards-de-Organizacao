@@ -183,10 +183,7 @@ function setupControllers(deckID)
             const id = journal_modal_box.dataset.current_id;
             if(!id){ return; }
 
-            if(isMainContent)
-            { element.querySelector(".journal-min-entry-content").innerHTML = text; }
-            else
-            { element.querySelector(".journal-min-entry-title").innerHTML = text; }
+            updateEntryMinContent(text, element, isMainContent);
 
             const route = '/api/journal';
             try

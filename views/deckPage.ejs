@@ -63,9 +63,9 @@
 
                 <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>" onclick="setupJournalEntryModal(event)">
                     <span class="journal-entry-delete-btn" onclick="showEntryDeletePanel(event)">&times;</span>
-                    <span class="journal-min-entry-title"><%=entry.title%></span>
+                    <span class="journal-min-entry-title"><%=entry.title.trim() == "" ? "Sem título" : entry.title.trim()%></span>
                     <span class="journal-min-entry-date">Dia <%=entry.creationDate || "misterioso"%></span>
-                    <span class="journal-min-entry-content"><%=entry.content%></span>
+                    <span class="journal-min-entry-content"><%=entry.content.trim() == "" ? "(vazio)" : entry.content.trim()%></span>
                 </div>
             <% } %>
         </div>
@@ -77,7 +77,7 @@
                         <div id="journal-modal-entry-delete">&times;</div>
                         <div id="journal-modal-close" onclick="hideJournalEntryModal()">&gt;</div>
                     </div>
-                    <p id="journal-modal-title"><textarea name="entry-title" id="journal-entry-title" cols="30" rows="1" value="Título" maxlength="40"></textarea></p>
+                    <p id="journal-modal-title"><input id="journal-entry-title" name="entry-title" value="Título" maxlength="40"></input></p>
                 </div>
                 
                 <div id="journal-modal-body">
