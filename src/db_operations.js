@@ -1,6 +1,5 @@
 const db = require('./db')
 
-
 function getDecks()
 {
     const query = "SELECT * FROM Decks";
@@ -13,7 +12,6 @@ function getDecks()
         });
     });
 }
-
 
 
 function getDeckMainContent(deck_ID)
@@ -108,8 +106,6 @@ function deleteItem(id)
 
 
 
-
-
 function updateBio(txt, id)
 {
     const query = "UPDATE Decks SET mainContent = ? WHERE ID = ?";
@@ -125,12 +121,12 @@ function updateBio(txt, id)
 
 
 
-function createJournalEntry(deckId)
+function createJournalEntry(deckId, date)
 {
-    const query = "INSERT INTO JournalEntries (deckId) VALUES (?)";
+    const query = "INSERT INTO JournalEntries (deckId, creationDate) VALUES (?, ?)";
     return new Promise((resolve, reject) =>
     {
-        db.run(query, deckId, function (err)
+        db.run(query, [deckId, date], function (err)
         {
             if(err) reject("Não foi possível adicionar uma nova entrada ao diário.\n"+err);
             else resolve({status:"A entrada do dia foi adicionada ao diário.", id: this.lastID});
@@ -139,12 +135,15 @@ function createJournalEntry(deckId)
 }
 
 
-function writeJournalEntryContent(journal_id, content)
+function updateJournalEntryOp(journal_id, txt, isMainContent)
 {
-    const query = "UPDATE JournalEntries SET content = ? WHERE ID = ?";
+    const query = isMainContent
+    ? "UPDATE JournalEntries SET content = ? WHERE ID = ?"
+    : "UPDATE JournalEntries SET title = ? WHERE ID = ?"
+    
     return new Promise((resolve, reject) =>
     {
-        db.run(query, [content, journal_id], (err) =>
+        db.run(query, [txt, journal_id], (err) =>
         {
             if(err){ reject("Não foi posssível atualzar o conteúdo da entrada do diário."); }
             else{ resolve("O conteúdo da entrada foi atualizado com sucesso."); }
@@ -180,6 +179,6 @@ module.exports =
     checkItem,
     updateBio,
     createJournalEntry,
-    writeJournalEntryContent,
+    updateJournalEntryOp,
     deleteJournalEntryOp
 }

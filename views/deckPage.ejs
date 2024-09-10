@@ -59,20 +59,33 @@
         <h3>Diário</h3>
         <div id="journal-entries">
 
-
             <% for (entry of deck.journal_entries) { %>
 
-                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>">
+                <div class="journal-min-entry" data-id="<%=entry.ID%>" data-entry_date="<%=entry.date%>" onclick="setupJournalEntryModal(event)">
                     <span class="journal-entry-delete-btn" onclick="showEntryDeletePanel(event)">&times;</span>
+                    <span class="journal-min-entry-title"><%=entry.title.trim() == "" ? "Sem título" : entry.title.trim()%></span>
                     <span class="journal-min-entry-date">Dia <%=entry.creationDate || "misterioso"%></span>
-                    <span class="journal-min-entry-content"><%=entry.content%></span>
+                    <span class="journal-min-entry-content"><%=entry.content.trim() == "" ? "(vazio)" : entry.content.trim()%></span>
                 </div>
-
-                <div class="journal-entry">
-                    <p><%=entry.Title%></p>
-                </div>
-
             <% } %>
+        </div>
+        <div id="journal-modal"> <!-- Modal background -->
+            <div id="journal-modal-box" data-current_id="null"> <!-- Actual modal box -->
+
+                <div id="journal-modal-header">
+                    <div id="journal-modal-action">
+                        <div id="journal-modal-entry-delete">&times;</div>
+                        <div id="journal-modal-close" onclick="hideJournalEntryModal()">&gt;</div>
+                    </div>
+                    <p id="journal-modal-title"><input id="journal-entry-title" name="entry-title" value="Título" maxlength="40"></input></p>
+                </div>
+                
+                <div id="journal-modal-body">
+                    <textarea name="entry-body" id="journal-entry-body" cols="30" rows="12" spellcheck="false"></textarea>    
+                </div>
+
+            </div>
+
         </div>
     </section>
 
@@ -86,10 +99,14 @@ const
     toggleCheckTask,
     deleteTask,
     updateDeckBio,
-    showEntryDeletePanel,
+    deleteJournalEntry,
+    updateJournalEntry
 ] = setupControllers('<%=deck.main.ID%>');
-
 </script>
+<script src="/js/deck-global.js"></script>
+<script src="/js/deck-util.js"></script>
+<script src="/js/deck-main.js"></script>
+
 </body>
 
 </html>
